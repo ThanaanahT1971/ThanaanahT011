@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกี่ยวกับเรา - Sakura Sushi & Grill</title>
+    <style>
+        :root { --primary: #C0392B; --dark: #1C1C1C; --light: #F9F6F0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sukhumvit Set', sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        header { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        .logo span { color: white; }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: white; text-decoration: none; font-weight: 500; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; margin-top: 2rem; }
+        .about-img img { width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .section-title { font-size: 2rem; color: var(--dark); margin-bottom: 1rem; border-bottom: 3px solid var(--primary); display: inline-block; }
+        footer { background: var(--dark); color: #888; text-align: center; padding: 2rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">🌸 Sakura <span>Sushi</span></a>
+        <nav>
+            <ul>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="about.html" class="active">เกี่ยวกับเรา</a></li>
+                <li><a href="menu.html">เมนูอาหาร</a></li>
+                <li><a href="promotions.html">โปรโมชั่น</a></li>
+                <li><a href="contact.html">ติดต่อ / จองโต๊ะ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="section-title">เรื่องราวของเรา</h1>
+        <div class="about-grid">
+            <div>
+                <h2 style="margin-bottom: 1rem;">ความตั้งใจในทุกๆ คำ</h2>
+                <p>ร้าน Sakura Sushi & Grill ก่อตั้งขึ้นด้วยความหลงใหลในศิลปะการปรุงอาหารญี่ปุ่นแบบดั้งเดิม ผสมผสานกับเทคนิคสมัยใหม่ Chef ของเรามีประสบการณ์มากกว่า 15 ปีในร้านอาหารชั้นนำ ณ กรุงโตเกียว</p>
+                <br>
+                <p>เราพิถีพิถันตั้งแต่การคัดเลือกปลาวัตถุดิบ การปรุงข้าวซูชิด้วยน้ำส้มสายชูสูตรพิเศษ ไปจนถึงการจัดวางดิสเพลย์ เพื่อให้ลูกค้าทุกท่านได้รับทั้งรสชาติและความประทับใจระดับพรีเมียม</p>
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=800&q=80" alt="Japanese Chef">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Sakura Sushi & Grill. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดต่อ / จองโต๊ะ - Sakura Sushi & Grill</title>
+    <style>
+        :root { --primary: #C0392B; --dark: #1C1C1C; --light: #F9F6F0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sukhumvit Set', sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        header { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        .logo span { color: white; }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: white; text-decoration: none; font-weight: 500; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        .btn { background: var(--primary); color: white; padding: 0.8rem 1.8rem; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn:hover { background: #A93226; }
+        footer { background: var(--dark); color: #888; text-align: center; padding: 2rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">🌸 Sakura <span>Sushi</span></a>
+        <nav>
+            <ul>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="about.html">เกี่ยวกับเรา</a></li>
+                <li><a href="menu.html">เมนูอาหาร</a></li>
+                <li><a href="promotions.html">โปรโมชั่น</a></li>
+                <li><a href="contact.html" class="active">ติดต่อ / จองโต๊ะ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 2rem;">สำรองโต๊ะล่วงหน้า</h1>
+        <form onsubmit="alert('ส่งข้อมูลสำรองโต๊ะเรียบร้อยแล้ว!'); return false;">
+            <div class="form-group">
+                <label for="name">ชื่อ-นามสกุล</label>
+                <input type="text" id="name" required placeholder="คุณลูกค้า">
+            </div>
+            <div class="form-group">
+                <label for="phone">เบอร์โทรศัพท์</label>
+                <input type="tel" id="phone" required placeholder="08X-XXX-XXXX">
+            </div>
+            <div class="form-group">
+                <label for="guests">จำนวนคน</label>
+                <select id="guests">
+                    <option>1-2 ท่าน</option>
+                    <option>3-4 ท่าน</option>
+                    <option>5-8 ท่าน</option>
+                    <option>มากกว่า 8 ท่าน (ห้องจัดเลี้ยง)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">วันที่และเวลา</label>
+                <input type="datetime-local" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="note">หมายเหตุเพิ่มเติม</label>
+                <textarea id="note" rows="4" placeholder="เช่น แพ้อาหาร หรือต้องการจัดวันเกิด"></textarea>
+            </div>
+            <button type="submit" class="btn">ยืนยันการจองโต๊ะ</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Sakura Sushi & Grill. All rights reserved.</p>
+    </footer>
+</body>
+</html>
