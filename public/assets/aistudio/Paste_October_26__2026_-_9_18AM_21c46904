@@ -1,0 +1,1031 @@
+MASTER PROMPT: NICE NIGHT BURGER
+
+Complete Responsive Restaurant Ordering Website
+
+Act as a senior full-stack developer, UI/UX designer, software architect, and restaurant digital product specialist.
+
+Build a polished, modern, fully responsive restaurant website for a fictional burger brand called Nice Night Burger.
+
+This must be a functional web application, not just a landing page, static mockup, or collection of non-functional buttons.
+
+The website must include a customer-facing storefront, digital menu, shopping cart, checkout flow, order tracking, customer account features, and an administrative dashboard for restaurant management.
+
+Prioritize a visually impressive design, practical functionality, maintainable code, and a smooth user experience on mobile phones, tablets, and desktop computers.
+
+Do not stop after creating the homepage. Implement all core pages, navigation, application states, sample data, and functional interactions.
+
+⸻
+
+1. BRAND IDENTITY
+
+Brand name: Nice Night Burger
+
+Brand tagline:
+“BAD DAY? GOOD BURGER. NICE NIGHT.”
+
+Secondary tagline:
+“BIG FLAVOR. MESSY HANDS. BETTER NIGHTS.”
+
+Brand personality:
+
+* Gen Z, bold, playful, confident, rebellious, and creative.
+* Inspired by streetwear, skate culture, underground music, neon signage, and late-night food culture.
+* Premium but approachable.
+* Social-media-friendly and visually recognizable.
+* Designed to appeal to students, young adults, and burger enthusiasts.
+
+The restaurant is fictional. Use realistic demo information and clearly label sample business details where appropriate.
+
+Brand visual identity
+
+Primary color palette:
+
+* Neon green: #B7FF00
+* Electric lime: #D4FF4F
+* Midnight black: #10110F
+* Charcoal: #1C1E19
+* Off-white: #F4F4EC
+* Muted gray: #9A9D91
+* Error red: #FF4D4D
+
+Use neon green as an accent for CTAs, prices, badges, active navigation, and important highlights. Do not make every section neon green.
+
+Visual direction:
+
+* Dark, editorial, street-inspired layouts.
+* Oversized bold typography.
+* High-quality burger photography with dramatic lighting.
+* Subtle grain textures, halftone graphics, stickers, and poster-like compositions.
+* Strong contrast and generous whitespace.
+* Rounded product cards combined with sharp editorial elements.
+* Smooth transitions and tasteful micro-interactions.
+* Bold price labels and energetic promotional banners.
+
+Typography:
+Use a bold display typeface such as Space Grotesk for headings and a clean sans-serif for body text. Use a Thai-compatible fallback font for Thai content.
+
+The design should feel like an original independent burger brand, not a generic food delivery template.
+
+Avoid excessive glow effects, excessive animation, cluttered layouts, tiny text, emoji-based food illustrations, and broken image assets.
+
+⸻
+
+2. LANGUAGE, CURRENCY, AND LOCALIZATION
+
+Primary interface language: Thai.
+
+Secondary language: English.
+
+Requirements:
+
+* Add a Thai / English language switcher.
+* Translate navigation, buttons, menu categories, product descriptions, forms, validation messages, order statuses, and dashboard labels.
+* Default to Thai.
+* Display all prices in Thai baht (฿).
+* Format dates and times appropriately for Thailand.
+* Use Asia/Bangkok as the application’s intended timezone.
+* Use Thai-friendly typography and appropriate line spacing.
+* Support Thai names, phone numbers, addresses, and special instructions.
+
+Use centralized translation dictionaries rather than scattering translated strings throughout components.
+
+⸻
+
+3. APPLICATION ARCHITECTURE
+
+Build a modern web application using the framework and tools supported by Google AI Studio.
+
+Preferred stack:
+
+* React.
+* TypeScript.
+* Vite if appropriate for the generated project.
+* Tailwind CSS or a consistent reusable styling system.
+* React Router or an equivalent routing solution.
+* Reusable components.
+* A structured data layer separating UI from business logic.
+
+Use Firebase if backend services are available and appropriate:
+
+* Firebase Authentication for user accounts.
+* Cloud Firestore for menu items, orders, users, promotions, and store settings.
+* Firebase Storage for product images if needed.
+
+If Firebase credentials or external services are unavailable, build a fully demonstrable local prototype with realistic sample data and a clearly separated data service layer.
+
+Do not invent successful server operations. Clearly distinguish simulated local functionality from real persistent backend functionality.
+
+Never expose private API keys, service credentials, or privileged secrets in frontend code.
+
+Provide an understandable project structure and a README explaining setup, configuration, and deployment.
+
+⸻
+
+4. CUSTOMER-FACING WEBSITE
+
+4.1 Home Page
+
+Create a striking homepage featuring:
+
+* Brand logo and navigation.
+* Hero section with a large burger photograph.
+* Headline: “BAD DAY? GOOD BURGER. NICE NIGHT.”
+* Supporting text: “เบื่อวันแย่ ๆ ก็ให้เบอร์เกอร์ดี ๆ เยียวยา”
+* Primary button: “สั่งเลย / ORDER NOW”
+* Secondary button: “ดูเมนูทั้งหมด”
+* A limited-time offer banner.
+* Featured signature burgers.
+* Best-selling items.
+* Combo recommendations.
+* A short brand story.
+* Customer reviews clearly identified as demonstration data.
+* Opening hours and store information.
+* Contact and social media links.
+* Footer containing policies and customer support information.
+
+Use real food photography where available. If external image loading is unreliable, provide attractive local fallbacks. Do not use broken image URLs.
+
+All prominent buttons must navigate to the appropriate section or page.
+
+4.2 Navigation
+
+Desktop navigation:
+
+* Home.
+* Menu.
+* Promotions.
+* About Us.
+* Contact.
+* Search.
+* Language switcher.
+* Account.
+* Shopping cart with item count.
+
+Mobile navigation:
+
+* Compact top bar.
+* Accessible hamburger menu.
+* Touch-friendly controls.
+* Persistent or floating cart access.
+* No horizontal overflow.
+
+Show active navigation states and clear feedback when an action succeeds or fails.
+
+4.3 Digital Menu
+
+Create these categories:
+
+1. All Items.
+2. Signature Burgers.
+3. Chicken Burgers.
+4. Plant-Based Options.
+5. Sides.
+6. Drinks.
+7. Combos.
+8. Desserts.
+
+Include:
+
+* Category filtering.
+* Search by product name or description.
+* Sorting by price, popularity, and newest items.
+* Product availability indicators.
+* Product detail modal or dedicated page.
+* Product images.
+* Product descriptions.
+* Prices.
+* Best Seller, New, and Limited Edition badges.
+* Quantity selection.
+* Add-to-cart controls.
+* Optional toppings and extras.
+* Special instructions.
+* Out-of-stock handling.
+
+Each product must have a unique ID, category, name, description, price, image, availability, and optional customization rules.
+
+Use reusable product components rather than duplicating UI code.
+
+4.4 Sample Menu Data
+
+Use the following fictional menu as initial sample data.
+
+1. NIGHT RIDER — ฿229
+    Double beef patties, cheddar cheese, caramelized onions, pickles, and signature sauce.
+2. GREEN LIGHT — ฿169
+    Single beef patty, lettuce, grilled onions, cheddar cheese, and house sauce.
+3. DOUBLE TROUBLE — ฿259
+    Double beef patties, double cheese, crispy onions, and smoky sauce.
+4. CRISPY AFTER DARK — ฿179
+    Crispy chicken, fresh slaw, pickles, and spicy mayo.
+5. THE VEGGIE SHIFT — ฿189
+    Plant-based patty, lettuce, tomato, onions, and plant-based sauce. Mark as plant-based only if the ingredients support that claim.
+6. MIDNIGHT FRIES — ฿79
+    Crispy fries with optional seasoning.
+7. LOADED NIGHT FRIES — ฿119
+    Fries topped with cheese sauce and crispy onions.
+8. NEON RINGS — ฿89
+    Crispy onion rings.
+9. AFTER HOURS COLA — ฿39
+    Soft drink.
+10. LIME CRUSH — ฿59
+    Refreshing lime drink.
+11. THE NIGHT COMBO — ฿299
+    A signature burger, fries, and a soft drink.
+12. CHOCO CRASH — ฿69
+    Chocolate dessert.
+
+Allow administrators to edit prices and menu data through the dashboard.
+
+These are sample prices, not verified real-world prices.
+
+4.5 Product Customization
+
+When a customer selects a product, show a detail view with:
+
+* Large product image.
+* Name and description.
+* Base price.
+* Quantity selector.
+* Available patty options where applicable.
+* Cheese or extra topping options.
+* Sauce preferences.
+* Side or drink upgrades where applicable.
+* Special instructions.
+* Final calculated price.
+* Add-to-cart button.
+
+Use configurable options per product.
+
+Calculate price changes automatically when paid extras are selected.
+
+Prevent invalid selections, enforce configured limits, and display clear validation messages.
+
+Do not apply the same customization options to every product when they do not make sense.
+
+4.6 Shopping Cart
+
+Implement a functional cart with:
+
+* Add products.
+* Remove products.
+* Increase or decrease quantities.
+* Edit customization options.
+* Display selected options and special instructions.
+* Calculate item subtotals.
+* Calculate order subtotal.
+* Apply eligible promotions.
+* Calculate delivery fees when delivery is enabled.
+* Display taxes or service fees only when configured.
+* Display the final payable amount.
+* Persist the cart across page refreshes in the local prototype.
+* Empty-cart state with a button to browse the menu.
+
+Merge identical cart items only when their customization options and special instructions match.
+
+Prevent quantities from exceeding configured inventory or order limits.
+
+All totals must be calculated using reliable business logic, not manually typed display strings.
+
+⸻
+
+5. CHECKOUT AND ORDERING
+
+Create a complete checkout experience.
+
+5.1 Fulfillment Options
+
+Support configurable fulfillment methods:
+
+* Pickup at the restaurant.
+* Delivery, if enabled by the administrator.
+
+For pickup:
+
+* Customer name.
+* Phone number.
+* Preferred pickup time.
+* Order notes.
+
+For delivery:
+
+* Customer name.
+* Phone number.
+* Address.
+* Province or district details as appropriate.
+* Delivery instructions.
+* Delivery fee.
+* Service-area validation if delivery areas are configured.
+
+Do not claim delivery is available outside the configured service area.
+
+If delivery is disabled, hide or disable the delivery option with a clear explanation.
+
+5.2 Payment Methods
+
+Provide configurable payment methods:
+
+* Cash on pickup.
+* Cash on delivery, only if delivery is enabled.
+* PromptPay QR payment as a demonstration option.
+* Online payment provider integration only when valid provider credentials and an actual backend are configured.
+
+For a prototype, clearly label payment simulation.
+
+Never claim that a real payment has been received when no payment provider has confirmed it.
+
+Do not store card numbers, CVVs, or sensitive payment credentials.
+
+If PromptPay QR is simulated, show a clear demo label and do not imply that the QR code represents a verified merchant payment account.
+
+5.3 Order Confirmation
+
+After a valid order is submitted:
+
+* Generate a unique human-readable order number.
+* Save the order to the configured backend or local prototype data layer.
+* Display the order summary.
+* Display the selected fulfillment method.
+* Display the payment method and status.
+* Display the estimated preparation time if configured.
+* Provide a button to track the order.
+* Prevent accidental duplicate submission.
+* Show clear errors if order creation fails.
+
+Never show a successful order confirmation before the order has actually been saved to the active data layer.
+
+5.4 Order Tracking
+
+Create an order tracking page with statuses:
+
+1. Order Received.
+2. Confirmed.
+3. Preparing.
+4. Ready for Pickup.
+5. Out for Delivery, only for delivery orders.
+6. Completed.
+7. Cancelled.
+
+Show:
+
+* Order number.
+* Ordered items.
+* Current status.
+* Order time.
+* Estimated preparation time when available.
+* Payment status.
+* Pickup or delivery details.
+
+Use a visual progress indicator.
+
+For a local prototype, simulate status updates in a clearly labeled demo environment.
+
+When a backend is configured, synchronize order status with the actual stored order record.
+
+5.5 Order History
+
+Provide an order history page for signed-in customers.
+
+Display:
+
+* Previous orders.
+* Order date.
+* Total amount.
+* Items.
+* Status.
+* Order details.
+* Reorder action.
+
+Reordering must reconstruct the cart from the historical order while validating current prices and product availability.
+
+⸻
+
+6. CUSTOMER ACCOUNTS
+
+Implement account features appropriate to the available backend.
+
+Include:
+
+* Registration.
+* Login.
+* Logout.
+* Profile details.
+* Name and phone number.
+* Saved delivery addresses if delivery is enabled.
+* Order history.
+* Account settings.
+
+When Firebase Authentication is configured, use it for real authentication.
+
+Without authentication services, clearly label local demo accounts as simulated.
+
+Do not treat a client-side role variable or hidden frontend button as secure authorization.
+
+Require server-side or Firebase Security Rules authorization for protected user data.
+
+Guest checkout may be supported so customers can place an order without creating an account.
+
+⸻
+
+7. PROMOTIONS AND DISCOUNTS
+
+Create a promotions page and a configurable coupon system.
+
+Sample promotions:
+
+* NIGHT10: 10% off eligible items.
+* COMBO50: ฿50 off a qualifying combo purchase.
+* FIRSTBITE: a configurable first-order discount.
+
+These are fictional demonstration promotions.
+
+Support:
+
+* Coupon code validation.
+* Minimum order amounts.
+* Expiration dates.
+* Eligible products or categories.
+* Maximum discount.
+* Usage limits when a backend is available.
+* Clear error messages for invalid or expired codes.
+
+Do not stack promotions unless explicitly allowed by the configuration.
+
+Validate discounts in the backend before accepting real orders.
+
+Display promotion conditions clearly.
+
+⸻
+
+8. ADMINISTRATIVE DASHBOARD
+
+Create a protected admin dashboard with a layout visually consistent with the brand.
+
+Include a separate admin navigation system.
+
+8.1 Dashboard Overview
+
+Display:
+
+* Orders today.
+* Sales today.
+* Orders awaiting confirmation.
+* Orders being prepared.
+* Completed orders.
+* Popular menu items.
+* Low-stock items where inventory tracking is enabled.
+* Recent orders.
+* A simple sales chart.
+
+Calculate metrics from actual available order data. Label sample-data analytics as demo data.
+
+Do not fabricate live sales statistics.
+
+8.2 Order Management
+
+Administrators should be able to:
+
+* View incoming orders.
+* Filter by status and date.
+* Search by order number.
+* View full order details.
+* Confirm or reject orders.
+* Update preparation status.
+* Mark orders ready for pickup.
+* Mark delivery orders as dispatched or completed.
+* Cancel orders with a reason.
+* Record payment status when authorized.
+* Review special instructions.
+
+When an order status changes, update the customer-facing tracking view.
+
+Prevent invalid status transitions.
+
+Use confirmation dialogs for consequential actions.
+
+8.3 Menu Management
+
+Allow authorized administrators to:
+
+* Create menu items.
+* Edit menu items.
+* Delete or archive items.
+* Upload or select product images.
+* Set prices.
+* Set categories.
+* Edit descriptions.
+* Configure product customizations.
+* Mark products available or unavailable.
+* Mark products as best sellers or limited editions.
+* Manage stock quantities if inventory tracking is enabled.
+
+Validate required fields and prices.
+
+Do not allow unauthorized customers to modify the menu.
+
+8.4 Inventory Management
+
+Provide basic optional inventory management:
+
+* Stock quantity.
+* Low-stock threshold.
+* Out-of-stock state.
+* Stock adjustments.
+* Inventory change history.
+
+Where possible, deduct stock safely when orders are confirmed rather than whenever a product is merely added to the cart.
+
+Avoid negative stock quantities and concurrent over-selling.
+
+If inventory is only simulated, state that limitation in the admin interface.
+
+8.5 Promotion Management
+
+Allow administrators to:
+
+* Create and edit coupons.
+* Configure discount type and value.
+* Set minimum spend.
+* Configure expiration.
+* Enable or disable promotions.
+* Define eligible categories or products.
+* Set redemption limits when supported by the backend.
+
+8.6 Store Settings
+
+Allow authorized administrators to configure:
+
+* Store name and contact details.
+* Address.
+* Opening hours.
+* Temporary store closure.
+* Pickup availability.
+* Delivery availability.
+* Delivery fee.
+* Minimum order amount.
+* Estimated preparation time.
+* Accepted payment methods.
+* Announcement banner.
+* Social media links.
+
+Display store closure and ordering availability consistently across the customer website and checkout.
+
+8.7 Staff and Access Control
+
+Support at least two roles:
+
+* Admin: full management access.
+* Staff: operational order management with limited settings access.
+
+Enforce role permissions in the backend or security rules.
+
+Do not rely only on hiding admin pages from the navigation.
+
+If role-based authorization is unavailable in the prototype, clearly label it as simulated and document what must be implemented before deployment.
+
+⸻
+
+9. CONTACT AND CUSTOMER SUPPORT
+
+Create a contact page containing:
+
+* Store contact information.
+* Opening hours.
+* Address with a map link if an actual address is configured.
+* Social media links.
+* A contact form with name, contact information, topic, and message.
+* Form validation.
+* Submission success and error states.
+
+For a prototype without an email service or backend, store submissions in the demo data layer or show a clearly labeled simulation.
+
+Do not claim that an email was sent if no email service confirmed delivery.
+
+Use fictional sample business information and clearly identify it as placeholder content.
+
+⸻
+
+10. REVIEWS AND FEEDBACK
+
+Build a customer review interface with:
+
+* Star ratings.
+* Review text.
+* Review date.
+* Optional product reference.
+* Sorting and filtering.
+* A report-review option if moderation is implemented.
+
+Only allow authenticated customers to create verified-purchase reviews when the necessary backend exists.
+
+Seed the prototype with clearly labeled fictional reviews.
+
+Never present invented reviews as real customer testimonials.
+
+⸻
+
+11. NOTIFICATIONS
+
+Create an in-app notification system for:
+
+* Order confirmation.
+* Order status changes.
+* Promotion announcements.
+* Important account messages.
+
+Display a notification badge and notification history.
+
+If browser push notifications are supported and configured, request permission only after an appropriate user interaction.
+
+Do not claim that SMS, email, LINE, or push notifications were sent without an actual configured integration.
+
+For the initial prototype, use in-app notifications and simulated events.
+
+⸻
+
+12. SEARCH, FILTERING, AND ACCESSIBILITY
+
+Implement:
+
+* Global menu search.
+* Category filters.
+* Price sorting.
+* Popularity sorting.
+* Clear filters action.
+* Empty search results state.
+* Loading states where applicable.
+* Error states.
+* Confirmation messages.
+* Accessible form labels.
+* Keyboard navigation.
+* Visible focus states.
+* Appropriate color contrast.
+* Alt text for meaningful images.
+* Reduced-motion support.
+
+Ensure interactive elements have appropriate semantic HTML and accessible names.
+
+⸻
+
+13. DATA MODEL
+
+Use a structured data model that can be migrated to a real backend.
+
+Suggested collections or tables:
+
+users
+
+* id
+* name
+* email
+* phone
+* role
+* createdAt
+
+products
+
+* id
+* name
+* description
+* categoryId
+* basePrice
+* imageUrl
+* isAvailable
+* isFeatured
+* isBestSeller
+* isLimitedEdition
+* stockQuantity
+* customizationOptions
+* createdAt
+* updatedAt
+
+categories
+
+* id
+* name
+* displayOrder
+* isActive
+
+orders
+
+* id
+* orderNumber
+* customerId
+* customerName
+* customerPhone
+* items
+* fulfillmentMethod
+* deliveryAddress
+* subtotal
+* discount
+* deliveryFee
+* total
+* paymentMethod
+* paymentStatus
+* orderStatus
+* specialInstructions
+* createdAt
+* updatedAt
+
+promotions
+
+* id
+* code
+* discountType
+* discountValue
+* minimumSpend
+* maximumDiscount
+* startAt
+* expiresAt
+* isActive
+* eligibleProducts
+* usageLimit
+
+storeSettings
+
+* storeName
+* phone
+* address
+* openingHours
+* isOpen
+* pickupEnabled
+* deliveryEnabled
+* deliveryFee
+* minimumOrder
+* estimatedPreparationMinutes
+* acceptedPaymentMethods
+
+reviews
+
+* id
+* userId
+* orderId
+* productId
+* rating
+* comment
+* createdAt
+* isDemo
+
+inventoryTransactions
+
+* id
+* productId
+* changeAmount
+* reason
+* createdAt
+* createdBy
+
+Use consistent identifiers and timestamps.
+
+Validate all important inputs.
+
+Use integer satang for monetary calculations where appropriate, and format values as Thai baht for display.
+
+The server must be the trusted source for prices, discounts, payment status, inventory deductions, and order totals in production.
+
+⸻
+
+14. SECURITY AND DATA INTEGRITY
+
+Implement sensible security practices.
+
+Requirements:
+
+* Validate user input.
+* Sanitize user-generated content where appropriate.
+* Do not expose secrets in frontend code.
+* Enforce authorization for administrative actions.
+* Protect personal customer data.
+* Prevent unauthorized order access.
+* Prevent clients from changing their role to admin.
+* Prevent arbitrary price manipulation.
+* Validate discounts and totals on the trusted backend.
+* Use secure Firebase Security Rules if Firebase is configured.
+* Avoid storing sensitive payment credentials.
+* Avoid exposing unnecessary customer information in admin views.
+* Add safe error handling without revealing secrets.
+
+If a security feature requires an external backend that is not configured, document the limitation explicitly.
+
+⸻
+
+15. USER EXPERIENCE DETAILS
+
+Implement a consistent system of:
+
+* Toast messages.
+* Loading indicators.
+* Skeleton loaders where useful.
+* Empty states.
+* Error states.
+* Form validation.
+* Confirmation dialogs.
+* Disabled states.
+* Success states.
+* Responsive modals and drawers.
+
+Examples:
+
+* “เพิ่มลงตะกร้าแล้ว”
+* “สินค้านี้หมดชั่วคราว”
+* “กรุณากรอกเบอร์โทรศัพท์”
+* “รหัสส่วนลดไม่ถูกต้อง”
+* “ร้านปิดรับออเดอร์แล้ว”
+* “สั่งซื้อสำเร็จ”
+
+Do not use browser alert dialogs as the primary user experience.
+
+Do not leave any major button without a working action.
+
+⸻
+
+16. DEMO MODE
+
+The application must be demonstrable even without external service credentials.
+
+Provide realistic seed data for:
+
+* Products.
+* Categories.
+* Promotions.
+* Sample orders.
+* Order statuses.
+* Store settings.
+* Customer reviews.
+
+Use a clean data service abstraction so the application can switch between local demo data and Firebase.
+
+For demo mode:
+
+* Persist data using an appropriate local storage mechanism where feasible.
+* Seed sample data only when no saved demo data exists.
+* Provide a way to reset demo data.
+* Clearly indicate when orders, payments, notifications, authentication, and analytics are simulated.
+* Do not mix demo orders with real production orders.
+* Never imply that demo payments are real.
+
+A customer should be able to browse the menu, customize a burger, add it to the cart, apply an eligible coupon, complete a demo checkout, and track the resulting order.
+
+An administrator should be able to edit a product, update an order status, and see those changes reflected in the customer-facing experience when the same data source is used.
+
+⸻
+
+17. PERFORMANCE AND CODE QUALITY
+
+Requirements:
+
+* Reusable components.
+* Clear file and folder organization.
+* TypeScript types for core entities.
+* Centralized pricing and order calculation logic.
+* Centralized validation rules.
+* Separation of UI, business logic, and data access.
+* Responsive images.
+* Lazy-load large images where appropriate.
+* Avoid unnecessary dependencies.
+* Avoid duplicated code.
+* Handle missing data gracefully.
+* Avoid TypeScript errors.
+* Avoid console errors.
+* Do not leave critical TODO placeholders.
+* Do not generate non-functional mock controls.
+
+Use realistic sample content and maintain consistent naming conventions.
+
+⸻
+
+18. REQUIRED ROUTES
+
+Create working navigation for these pages:
+
+Customer:
+
+* /
+* /menu
+* /menu/:productId
+* /promotions
+* /cart
+* /checkout
+* /order-confirmation/:orderId
+* /track-order/:orderId
+* /account
+* /account/orders
+* /about
+* /contact
+
+Admin:
+
+* /admin
+* /admin/orders
+* /admin/menu
+* /admin/inventory
+* /admin/promotions
+* /admin/reviews
+* /admin/settings
+
+Routes may be adapted to the framework, but all equivalent views must exist and be navigable.
+
+Provide a clear demo-only admin entry point or documented demo login method.
+
+Do not create a publicly accessible production admin account with hardcoded credentials.
+
+⸻
+
+19. ACCEPTANCE TESTS
+
+Before considering the project complete, verify the following flows:
+
+1. A customer can navigate from the homepage to the menu.
+2. A customer can search for a burger.
+3. A customer can filter by category.
+4. A customer can view product details.
+5. A customer can customize an eligible burger.
+6. A customer can add products to the cart.
+7. Cart quantities and totals update correctly.
+8. Removing an item updates the total.
+9. An invalid coupon is rejected.
+10. A valid coupon changes the total correctly.
+11. Checkout validates required fields.
+12. Pickup and delivery options respect store configuration.
+13. A valid demo order receives a unique order number.
+14. The order appears in order history or the tracking view.
+15. An administrator can view the order.
+16. An administrator can change the order status.
+17. The customer tracking view reflects the new status.
+18. An administrator can create and edit a product.
+19. Out-of-stock products cannot be ordered.
+20. Store closure prevents new orders.
+21. The website works on mobile, tablet, and desktop layouts.
+22. Thai and English language switching works.
+23. Demo-mode labels are visible wherever functionality is simulated.
+24. No major buttons or navigation links are broken.
+25. There are no critical runtime errors.
+
+Fix any issues discovered during testing.
+
+⸻
+
+20. IMPLEMENTATION PRIORITIES
+
+Implement the project in this order:
+
+Priority 1 — Essential customer experience:
+
+* Responsive design system.
+* Homepage.
+* Menu and product details.
+* Cart.
+* Checkout.
+* Demo order creation.
+* Order tracking.
+
+Priority 2 — Essential restaurant management:
+
+* Admin dashboard.
+* Order management.
+* Menu management.
+* Store availability settings.
+
+Priority 3 — Additional restaurant features:
+
+* Promotions.
+* Customer accounts.
+* Order history.
+* Inventory.
+* Reviews.
+* Contact form.
+* Analytics.
+
+Priority 4 — Backend integration and production readiness:
+
+* Firebase authentication.
+* Firestore data persistence.
+* Security rules.
+* Server-side order validation.
+* Payment provider integration when credentials are available.
+* Production deployment documentation.
+
+If the environment cannot implement every feature in one pass, complete Priority 1 first, ensure it works end-to-end, and then implement the remaining priorities without destroying existing functionality.
+
+Do not merely describe the implementation plan. Actually build the application and verify the core interactions.
+
+⸻
+
+21. FINAL DELIVERABLE
+
+Deliver:
+
+1. A complete responsive website.
+2. A visually polished customer storefront.
+3. A working menu and cart.
+4. A functional demo checkout and order tracking flow.
+5. An administrative dashboard.
+6. Editable sample menu and store settings.
+7. Clear demo-mode indicators.
+8. A maintainable project structure.
+9. Setup and deployment instructions.
+10. A list of implemented features and any remaining external configuration requirements.
+
+Final quality target:
+The website should look like a contemporary Gen Z burger brand with a distinctive neon-green identity, while behaving like a coherent restaurant ordering application.
+
+Start by inspecting the available development environment, then build the application. Do not stop at a plan or a design description.

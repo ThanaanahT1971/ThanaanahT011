@@ -1,0 +1,8 @@
+{
+  "name": "Nice Night Burger - Late Night Street Burgers",
+  "description": "Official responsive ordering web app for Nice Night Burger. Bold street-inspired late-night smashed burgers, sides, combos, and live order tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
