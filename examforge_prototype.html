@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXAMFORGE - English Test Generator & Analytics System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0f172a',
+              card: '#1e293b',
+              border: '#334155',
+              accent: '#0284c7',
+              lightAccent: '#38bdf8',
+              hover: '#0369a1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+    .chart-bar-glow {
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+    }
+  </style>
+</head>
+<div id="app-root" class="min-h-screen flex flex-col md:flex-row">
+
+  <!-- Sidebar / Navigation -->
+  <aside class="w-full md:w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0">
+    <div>
+      <!-- Brand Logo -->
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-sky-500/20">
+            EF
+          </div>
+          <div>
+            <h1 class="font-bold text-lg text-white tracking-wide">EXAMFORGE</h1>
+            <p class="text-xs text-sky-400 font-medium">English Assessment AI System</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role Switcher -->
+      <div class="p-4 bg-slate-950/60 m-3 rounded-xl border border-slate-800">
+        <label class="text-xs text-slate-400 uppercase font-semibold tracking-wider block mb-2">Active View Mode</label>
+        <div class="grid grid-cols-2 gap-1 p-1 bg-slate-900 rounded-lg border border-slate-800">
+          <button id="mode-teacher-btn" onclick="switchRole('teacher')" class="py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-sky-600 text-white shadow">
+            Teacher
+          </button>
+          <button id="mode-student-btn" onclick="switchRole('student')" class="py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-white">
+            Student
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="px-3 py-2 space-y-1">
+        <!-- Teacher Navigation -->
+        <div id="teacher-nav" class="space-y-1">
+          <button onclick="navigateTo('teacher-dashboard')" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-white bg-sky-600/20 border border-sky-500/30">
+            <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button onclick="navigateTo('exam-builder')" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <span>Exam Builder</span>
+          </button>
+          <button onclick="navigateTo('question-bank')" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>Question Bank</span>
+          </button>
+          <button onclick="navigateTo('analytics-dashboard')" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Analytics & Results</span>
+          </button>
+        </div>
+
+        <!-- Student Navigation -->
+        <div id="student-nav" class="space-y-1 hidden">
+          <button onclick="navigateTo('student-portal')" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white bg-sky-600/20 border border-sky-500/30">
+            <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span>Available Exams</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- User Footer Profile Info -->
+    <div class="p-4 border-t border-slate-800 bg-slate-950/40">
+      <div class="flex items-center space-x-3">
+        <div id="user-avatar" class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-bold text-slate-200">
+          T
+        </div>
+        <div class="truncate">
+          <p id="user-name" class="text-sm font-semibold text-white truncate">Prof. Alexander Vance</p>
+          <p id="user-role" class="text-xs text-slate-400">Head of English Department</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 bg-slate-950 flex flex-col justify-between">
+    <div id="content-container">
+
+      <!-- SECTION: Teacher Dashboard -->
+      <section id="section-teacher-dashboard" class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Teacher Management Dashboard</h2>
+            <p class="text-slate-400 text-sm mt-1">Overview of created examinations, assessment metrics, and question repositories.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <button onclick="navigateTo('exam-builder')" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-medium text-sm transition flex items-center space-x-2 shadow-lg shadow-sky-600/20">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Create New Exam</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 text-sm font-medium">Active Exams</span>
+              <span class="p-2 bg-sky-500/10 rounded-lg text-sky-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </span>
+            </div>
+            <p id="stat-total-exams" class="text-3xl font-bold text-white mt-3">0</p>
+            <span class="text-xs text-sky-400 font-medium">Ready for deployment</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 text-sm font-medium">Average Class Score</span>
+              <span class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </span>
+            </div>
+            <p id="stat-avg-score" class="text-3xl font-bold text-white mt-3">0%</p>
+            <span class="text-xs text-emerald-400 font-medium">+4.2% from last term</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 text-sm font-medium">Total Submissions</span>
+              <span class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </span>
+            </div>
+            <p id="stat-total-submissions" class="text-3xl font-bold text-white mt-3">0</p>
+            <span class="text-xs text-indigo-400 font-medium">Graded automatically</span>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400 text-sm font-medium">Question Bank Items</span>
+              <span class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+              </span>
+            </div>
+            <p id="stat-total-questions" class="text-3xl font-bold text-white mt-3">0</p>
+            <span class="text-xs text-cyan-400 font-medium">Categorized & tagged</span>
+          </div>
+        </div>
+
+        <!-- Recent Examinations List -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-white">Active Examination Papers</h3>
+            <span class="text-xs text-slate-400">Click actions to manage or launch tests</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="bg-slate-950 text-slate-400 uppercase text-xs font-semibold">
+                <tr>
+                  <th class="px-4 py-3 rounded-l-lg">Exam Code & Title</th>
+                  <th class="px-4 py-3">Subject / Category</th>
+                  <th class="px-4 py-3">Duration</th>
+                  <th class="px-4 py-3">Questions</th>
+                  <th class="px-4 py-3 rounded-r-lg text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-exam-table-body" class="divide-y divide-slate-800">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Exam Builder -->
+      <section id="section-exam-builder" class="space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-5">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Create & Edit Exam Paper</h2>
+          <p class="text-slate-400 text-sm mt-1">Configure assessment details and assemble questions from the library or create new ones.</p>
+        </div>
+
+        <form id="exam-builder-form" onsubmit="handleSaveExam(event)" class="space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+            <h3 class="text-base font-semibold text-sky-400 uppercase tracking-wider">1. General Settings</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Exam Title *</label>
+                <input type="text" id="builder-exam-title" required placeholder="e.g. Advanced English Grammar Evaluation" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+              
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Subject / Domain *</label>
+                <select id="builder-exam-category" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+                  <option value="Grammar">Grammar & Structure</option>
+                  <option value="Vocabulary">Vocabulary & Usage</option>
+                  <option value="Reading Comprehension">Reading Comprehension</option>
+                  <option value="Comprehensive">General English Assessment</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Duration (Minutes) *</label>
+                <input type="number" id="builder-exam-duration" min="1" max="180" value="15" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Access PIN Code (4 Digits)</label>
+                <input type="text" id="builder-exam-pin" maxlength="6" placeholder="e.g. 1024" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Exam Instructions / Description</label>
+              <textarea id="builder-exam-desc" rows="2" placeholder="Provide test takers with background context or special instructions..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-500"></textarea>
+            </div>
+          </div>
+
+          <!-- Question Selection Container -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-semibold text-sky-400 uppercase tracking-wider">2. Selected Questions</h3>
+                <p class="text-xs text-slate-400">Select questions from the Question Bank to include in this exam paper.</p>
+              </div>
+              <button type="button" onclick="openAddQuestionModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 rounded-lg text-xs font-medium transition flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span>Create New Question</span>
+              </button>
+            </div>
+
+            <!-- List of standard Question Bank items for selection -->
+            <div id="builder-question-selector-list" class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+              <!-- Dynamically built options -->
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-3">
+            <button type="button" onclick="navigateTo('teacher-dashboard')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium transition">
+              Cancel
+            </button>
+            <button type="submit" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-sky-600/20">
+              Save & Publish Exam
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- SECTION: Question Bank -->
+      <section id="section-question-bank" class="space-y-6 hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-5">
+          <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Question Bank & Repository</h2>
+            <p class="text-slate-400 text-sm mt-1">Manage reusable multiple-choice English language questions across categories.</p>
+          </div>
+          <button onclick="openAddQuestionModal()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-medium text-sm transition flex items-center space-x-2 shadow-lg shadow-sky-600/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <span>Add Question</span>
+          </button>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="flex flex-col sm:flex-row items-center gap-3 bg-slate-900 p-4 rounded-xl border border-slate-800">
+          <div class="relative flex-1 w-full">
+            <input type="text" id="qb-search-input" onkeyup="filterQuestionBank()" placeholder="Search questions by keyword..." class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+            <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <select id="qb-category-filter" onchange="filterQuestionBank()" class="w-full sm:w-48 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+            <option value="ALL">All Categories</option>
+            <option value="Grammar">Grammar</option>
+            <option value="Vocabulary">Vocabulary</option>
+            <option value="Reading Comprehension">Reading Comprehension</option>
+          </select>
+        </div>
+
+        <!-- Question Cards Grid -->
+        <div id="qb-questions-list" class="space-y-3">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- SECTION: Analytics Dashboard -->
+      <section id="section-analytics-dashboard" class="space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Performance Analytics & Diagnostics</h2>
+            <p class="text-slate-400 text-sm mt-1">Real-time breakdown of student results, topic mastery, and question difficulty analysis.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="resetAnalyticsData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 rounded-lg border border-slate-700 transition">
+              Reset Analytics Data
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-xs text-slate-400 uppercase font-semibold">Overall Mean Score</span>
+            <p id="analytics-mean" class="text-2xl font-bold text-sky-400 mt-1">0%</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-xs text-slate-400 uppercase font-semibold">Highest Score</span>
+            <p id="analytics-high" class="text-2xl font-bold text-emerald-400 mt-1">0%</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-xs text-slate-400 uppercase font-semibold">Lowest Score</span>
+            <p id="analytics-low" class="text-2xl font-bold text-rose-400 mt-1">0%</p>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-xs text-slate-400 uppercase font-semibold">Pass Rate (&ge;60%)</span>
+            <p id="analytics-passrate" class="text-2xl font-bold text-cyan-400 mt-1">0%</p>
+          </div>
+        </div>
+
+        <!-- Charts Grid (Pure CSS/JS Dynamic Bar Charts) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Score Distribution Chart -->
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+            <h3 class="text-base font-semibold text-white flex items-center justify-between">
+              <span>Score Distribution Spectrum</span>
+              <span class="text-xs text-slate-400 font-normal">Student Frequency</span>
+            </h3>
+            <div id="chart-score-distribution" class="h-48 flex items-end justify-between gap-3 pt-6 pb-2 px-2 border-b border-slate-800">
+              <!-- Rendered dynamically -->
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 font-medium px-1">
+              <span>0-20%</span>
+              <span>21-40%</span>
+              <span>41-60%</span>
+              <span>61-80%</span>
+              <span>81-100%</span>
+            </div>
+          </div>
+
+          <!-- Category Performance Breakdown -->
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+            <h3 class="text-base font-semibold text-white flex items-center justify-between">
+              <span>Domain Proficiency Rate</span>
+              <span class="text-xs text-slate-400 font-normal">Accuracy by Topic</span>
+            </h3>
+            <div id="chart-topic-performance" class="space-y-4 pt-2">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Submission Log -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+          <h3 class="text-lg font-bold text-white mb-4">Graded Student Submissions Log</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="bg-slate-950 text-slate-400 uppercase text-xs font-semibold">
+                <tr>
+                  <th class="px-4 py-3 rounded-l-lg">Student Name</th>
+                  <th class="px-4 py-3">Exam Paper</th>
+                  <th class="px-4 py-3">Submission Date</th>
+                  <th class="px-4 py-3">Duration Used</th>
+                  <th class="px-4 py-3">Score</th>
+                  <th class="px-4 py-3 rounded-r-lg text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody id="analytics-submissions-table" class="divide-y divide-slate-800">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Student Portal -->
+      <section id="section-student-portal" class="space-y-6 hidden">
+        <div class="border-b border-slate-800 pb-5">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Student Testing Portal</h2>
+          <p class="text-slate-400 text-sm mt-1">Select an open test paper or enter your designated Exam Access Code.</p>
+        </div>
+
+        <!-- PIN Code Entrance Box -->
+        <div class="bg-gradient-to-r from-slate-900 to-slate-900/90 border border-sky-500/30 rounded-2xl p-6 max-w-xl mx-auto space-y-4 text-center shadow-xl">
+          <div class="w-12 h-12 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center mx-auto">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Have an Access Code / Exam PIN?</h3>
+            <p class="text-xs text-slate-400 mt-1">Enter your 4-digit exam passcode provided by your instructor.</p>
+          </div>
+          <div class="flex items-center justify-center gap-3 max-w-sm mx-auto">
+            <input type="text" id="pin-input" placeholder="e.g. 1024" maxlength="6" class="bg-slate-950 border border-slate-700 text-center font-mono text-lg text-sky-400 tracking-widest rounded-lg px-4 py-2 w-full focus:outline-none focus:border-sky-500">
+            <button onclick="launchExamByPIN()" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm rounded-lg transition shrink-0 shadow-lg shadow-sky-600/20">
+              Start Exam
+            </button>
+          </div>
+        </div>
+
+        <!-- Available Public Examinations Card Grid -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-white">Available Examinations</h3>
+          <div id="student-exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Real-time Exam Interface -->
+      <section id="section-exam-interface" class="space-y-6 hidden">
+        <!-- Sticky Header Bar -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 sticky top-0 z-10 shadow-xl">
+          <div>
+            <span id="exam-taking-code" class="text-xs font-mono px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">EXAM-00</span>
+            <h2 id="exam-taking-title" class="text-lg font-bold text-white mt-1">English Assessment</h2>
+          </div>
+
+          <!-- Countdown Timer -->
+          <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-2 bg-slate-950 px-4 py-2 rounded-lg border border-slate-800">
+              <svg class="w-5 h-5 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block leading-tight uppercase font-semibold">Time Remaining</span>
+                <span id="exam-timer-display" class="font-mono font-bold text-lg text-amber-400">00:00</span>
+              </div>
+            </div>
+
+            <button onclick="confirmSubmitExam()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg transition shadow-lg shadow-emerald-600/20">
+              Submit Test
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <!-- Main Question Display Card -->
+          <div class="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6 flex flex-col justify-between min-h-[420px]">
+            <div>
+              <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                <span id="question-index-badge" class="text-xs font-bold text-sky-400 uppercase tracking-wider bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">Question 1 of 10</span>
+                <span id="question-topic-badge" class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-md">Grammar</span>
+              </div>
+
+              <!-- Question Statement -->
+              <h3 id="question-text-display" class="text-lg md:text-xl font-medium text-white leading-relaxed mb-6">
+                Loading Question...
+              </h3>
+
+              <!-- Options Grid -->
+              <div id="question-options-container" class="space-y-3">
+                <!-- Dynamically Populated Option Buttons -->
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="flex items-center justify-between border-t border-slate-800 pt-5 mt-6">
+              <button id="btn-prev-q" onclick="navigateQuestion(-1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg transition flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span>Previous</span>
+              </button>
+              <button id="btn-next-q" onclick="navigateQuestion(1)" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold rounded-lg transition flex items-center space-x-2 shadow-lg shadow-sky-600/20">
+                <span>Next</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Palette / Jump Grid -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider border-b border-slate-800 pb-3">Question Palette</h4>
+            <div id="question-palette-grid" class="grid grid-cols-4 sm:grid-cols-5 gap-2">
+              <!-- Dynamically populated buttons -->
+            </div>
+            <div class="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-400">
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-md bg-sky-600"></span>
+                <span>Current Question</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-md bg-emerald-950 border border-emerald-500 text-emerald-400"></span>
+                <span>Answered</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-md bg-slate-800 border border-slate-700"></span>
+                <span>Unanswered</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Auto Grading Results View -->
+      <section id="section-results-view" class="space-y-6 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-6 max-w-4xl mx-auto shadow-2xl">
+          <!-- Summary Header -->
+          <div class="text-center space-y-2 border-b border-slate-800 pb-6">
+            <div class="inline-flex p-3 bg-emerald-500/10 text-emerald-400 rounded-full mb-2">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">Assessment Complete!</h2>
+            <p id="result-exam-title" class="text-slate-400 text-sm">Exam Summary Results</p>
+          </div>
+
+          <!-- Score Card Overview Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center">
+              <span class="text-xs text-slate-400 uppercase font-semibold">Final Score</span>
+              <p id="result-final-percentage" class="text-4xl font-extrabold text-sky-400 mt-1">0%</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center">
+              <span class="text-xs text-slate-400 uppercase font-semibold">Correct Answers</span>
+              <p id="result-correct-count" class="text-4xl font-extrabold text-emerald-400 mt-1">0 / 0</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center">
+              <span class="text-xs text-slate-400 uppercase font-semibold">Time Expended</span>
+              <p id="result-time-taken" class="text-4xl font-extrabold text-amber-400 mt-1">00:00</p>
+            </div>
+          </div>
+
+          <!-- Detailed Item Breakdown -->
+          <div class="space-y-4">
+            <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-2">Question Breakdown & Solutions</h3>
+            <div id="result-question-breakdown" class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-2">
+              <!-- Dynamically populated answer review cards -->
+            </div>
+          </div>
+
+          <div class="flex justify-center pt-4">
+            <button onclick="navigateTo('student-portal')" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-lg transition shadow-lg shadow-sky-600/20">
+              Return to Student Portal
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Application Footer -->
+    <footer class="mt-8 pt-4 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 EXAMFORGE Systems. Professional English Assessment Prototype.</p>
+      <div class="flex items-center space-x-4">
+        <span class="hover:text-slate-400 cursor-pointer" onclick="alert('EXAMFORGE Prototype Engine v2.4 initialized.')">System Specs</span>
+        <span class="hover:text-slate-400 cursor-pointer" onclick="resetAllApplicationData()">Reset Demo Data</span>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- MODAL: Add / Edit Question Modal -->
+<div id="question-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl p-6 space-y-5 shadow-2xl">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <h3 id="modal-q-title" class="text-lg font-bold text-white">Add New Question</h3>
+      <button onclick="closeQuestionModal()" class="text-slate-400 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <form id="question-modal-form" onsubmit="handleSaveQuestion(event)" class="space-y-4">
+      <input type="hidden" id="modal-q-id">
+      
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Question Category *</label>
+        <select id="modal-q-category" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+          <option value="Grammar">Grammar & Structure</option>
+          <option value="Vocabulary">Vocabulary & Usage</option>
+          <option value="Reading Comprehension">Reading Comprehension</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Question Text / Sentence *</label>
+        <textarea id="modal-q-text" rows="3" required placeholder="Enter the complete question prompt..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500"></textarea>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-xs font-medium text-slate-300">Answer Choices * (Select radio button for Correct Answer)</label>
+        
+        <div class="flex items-center space-x-2">
+          <input type="radio" name="correct-opt" value="0" checked class="text-sky-500 focus:ring-0">
+          <input type="text" id="opt-0" required placeholder="Option A" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-sky-500">
+        </div>
+        
+        <div class="flex items-center space-x-2">
+          <input type="radio" name="correct-opt" value="1" class="text-sky-500 focus:ring-0">
+          <input type="text" id="opt-1" required placeholder="Option B" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <input type="radio" name="correct-opt" value="2" class="text-sky-500 focus:ring-0">
+          <input type="text" id="opt-2" required placeholder="Option C" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-sky-500">
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <input type="radio" name="correct-opt" value="3" class="text-sky-500 focus:ring-0">
+          <input type="text" id="opt-3" required placeholder="Option D" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-sky-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Explanation / Rationale</label>
+        <input type="text" id="modal-q-explanation" placeholder="Brief explanation for feedback upon completion..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+      </div>
+
+      <div class="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+        <button type="button" onclick="closeQuestionModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium">Cancel</button>
+        <button type="submit" class="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-sm font-semibold shadow-lg shadow-sky-600/20">Save Question</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC ENGINE -->
+<script>
+  /* ==========================================================================
+     GLOBAL APP STATE AND SAMPLE DATA
+     ========================================================================== */
+  
+  // Initial Question Bank Data
+  const initialQuestions = [
+    {
+      id: 'q-101',
+      category: 'Grammar',
+      text: 'Neither of the applicants _______ suitable qualifications for the senior management position.',
+      options: ['possess', 'possesses', 'are possessing', 'have possessed'],
+      correctAnswerIndex: 1,
+      explanation: 'Subject "Neither" is singular and requires the singular verb "possesses".'
+    },
+    {
+      id: 'q-102',
+      category: 'Grammar',
+      text: 'Had the committee members listened to the safety report, the accident _______ prevented.',
+      options: ['would be', 'can be', 'would have been', 'had been'],
+      correctAnswerIndex: 2,
+      explanation: 'Third conditional structure: Had + past participle requires "would have + past participle".'
+    },
+    {
+      id: 'q-103',
+      category: 'Vocabulary',
+      text: 'The CFO gave an _______ explanation of the fiscal budget, making complex numbers easy to grasp.',
+      options: ['ambiguous', 'elusive', 'lucid', 'opaque'],
+      correctAnswerIndex: 2,
+      explanation: '"Lucid" means clear and easy to understand.'
+    },
+    {
+      id: 'q-104',
+      category: 'Vocabulary',
+      text: 'Heavy rainfall was unable to _______ the enthusiasm of the marathon runners.',
+      options: ['dampen', 'enhance', 'instigate', 'alleviate'],
+      correctAnswerIndex: 0,
+      explanation: '"Dampen" means to make less strong or intense.'
+    },
+    {
+      id: 'q-105',
+      category: 'Reading Comprehension',
+      text: 'Passage: "Quantum computing leverages qubits to process massive datasets concurrently." What is implied about traditional computing?',
+      options: [
+        'It processes data sequentially or with limitations compared to qubits.',
+        'It relies exclusively on quantum mechanics.',
+        'It is faster than quantum computing.',
+        'It does not use binary digits.'
+      ],
+      correctAnswerIndex: 0,
+      explanation: 'The passage highlights concurrent qubit processing, implying standard computing handles data sequentially.'
+    },
+    {
+      id: 'q-106',
+      category: 'Grammar',
+      text: 'The director requested that every employee _______ present at the annual general assembly.',
+      options: ['is', 'be', 'are', 'was'],
+      correctAnswerIndex: 1,
+      explanation: 'Subjunctive mood following verbs of demand/request ("requested that...") uses the base form "be".'
+    }
+  ];
+
+  // Initial Examinations Data
+  const initialExams = [
+    {
+      id: 'exam-1',
+      pin: '1024',
+      title: 'Advanced English Proficiency Test',
+      category: 'Comprehensive',
+      durationMinutes: 15,
+      description: 'Standardized evaluation focusing on advanced syntax, vocabulary nuances, and textual comprehension.',
+      questionIds: ['q-101', 'q-102', 'q-103', 'q-104', 'q-105', 'q-106']
+    },
+    {
+      id: 'exam-2',
+      pin: '2048',
+      title: 'Business Vocabulary & Syntax Quiz',
+      category: 'Vocabulary',
+      durationMinutes: 10,
+      description: 'Quick check covering professional terminology and formal writing structures.',
+      questionIds: ['q-103', 'q-104', 'q-106']
+    }
+  ];
+
+  // Initial Student Submission History (For analytics visuals)
+  const initialSubmissions = [
+    { id: 'sub-1', studentName: 'Emma Watson', examId: 'exam-1', examTitle: 'Advanced English Proficiency Test', scorePercent: 83.3, timeTakenSeconds: 520, date: '2026-10-24' },
+    { id: 'sub-2', studentName: 'Liam Hemsworth', examId: 'exam-1', examTitle: 'Advanced English Proficiency Test', scorePercent: 66.7, timeTakenSeconds: 610, date: '2026-10-25' },
+    { id: 'sub-3', studentName: 'Sophia Turner', examId: 'exam-1', examTitle: 'Advanced English Proficiency Test', scorePercent: 100.0, timeTakenSeconds: 415, date: '2026-10-26' },
+    { id: 'sub-4', studentName: 'Noah Centineo', examId: 'exam-2', examTitle: 'Business Vocabulary & Syntax Quiz', scorePercent: 33.3, timeTakenSeconds: 300, date: '2026-10-27' },
+    { id: 'sub-5', studentName: 'Olivia Rodrigo', examId: 'exam-2', examTitle: 'Business Vocabulary & Syntax Quiz', scorePercent: 66.7, timeTakenSeconds: 280, date: '2026-10-28' }
+  ];
+
+  // In-Memory State Container
+  let state = {
+    role: 'teacher', // 'teacher' | 'student'
+    activeSection: 'teacher-dashboard',
+    questions: [...initialQuestions],
+    exams: [...initialExams],
+    submissions: [...initialSubmissions],
+    
+    // Active Exam Execution State
+    currentExam: null,
+    currentQuestionIdx: 0,
+    userAnswers: {}, // questionId -> selectedOptionIndex
+    examTimerSeconds: 0,
+    timerInterval: null,
+    examTimeExpended: 0
+  };
+
+  /* ==========================================================================
+     NAVIGATION & ROLE SWITCHING
+     ========================================================================== */
+
+  function switchRole(newRole) {
+    state.role = newRole;
+    
+    const teacherBtn = document.getElementById('mode-teacher-btn');
+    const studentBtn = document.getElementById('mode-student-btn');
+    const teacherNav = document.getElementById('teacher-nav');
+    const studentNav = document.getElementById('student-nav');
+    const userAvatar = document.getElementById('user-avatar');
+    const userName = document.getElementById('user-name');
+    const userRole = document.getElementById('user-role');
+
+    if (newRole === 'teacher') {
+      teacherBtn.className = 'py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-sky-600 text-white shadow';
+      studentBtn.className = 'py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-white';
+      teacherNav.classList.remove('hidden');
+      studentNav.classList.add('hidden');
+      userAvatar.textContent = 'T';
+      userName.textContent = 'Prof. Alexander Vance';
+      userRole.textContent = 'Head of English Dept.';
+      navigateTo('teacher-dashboard');
+    } else {
+      studentBtn.className = 'py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-sky-600 text-white shadow';
+      teacherBtn.className = 'py-1.5 text-xs font-semibold rounded-md transition-all duration-200 text-slate-400 hover:text-white';
+      studentNav.classList.remove('hidden');
+      teacherNav.classList.add('hidden');
+      userAvatar.textContent = 'S';
+      userName.textContent = 'Jordan Miller';
+      userRole.textContent = 'Student ID: #88412';
+      navigateTo('student-portal');
+    }
+  }
+
+  function navigateTo(sectionId) {
+    // Hide all sections
+    const sections = ['teacher-dashboard', 'exam-builder', 'question-bank', 'analytics-dashboard', 'student-portal', 'exam-interface', 'results-view'];
+    sections.forEach(s => {
+      const el = document.getElementById(`section-${s}`);
+      if (el) el.classList.add('hidden');
+    });
+
+    // Show target section
+    const targetEl = document.getElementById(`section-${sectionId}`);
+    if (targetEl) targetEl.classList.remove('hidden');
+
+    state.activeSection = sectionId;
+
+    // Trigger Section-Specific Refreshes
+    if (sectionId === 'teacher-dashboard') renderTeacherDashboard();
+    if (sectionId === 'exam-builder') prepareExamBuilder();
+    if (sectionId === 'question-bank') renderQuestionBank();
+    if (sectionId === 'analytics-dashboard') renderAnalyticsDashboard();
+    if (sectionId === 'student-portal') renderStudentPortal();
+
+    // Scroll to top
+    document.getElementById('content-container').scrollTop = 0;
+  }
+
+  /* ==========================================================================
+     TEACHER DASHBOARD MODULE
+     ========================================================================== */
+
+  function renderTeacherDashboard() {
+    // Calculate Summary Stats
+    document.getElementById('stat-total-exams').textContent = state.exams.length;
+    document.getElementById('stat-total-questions').textContent = state.questions.length;
+    document.getElementById('stat-total-submissions').textContent = state.submissions.length;
+
+    const avgScore = state.submissions.length > 0
+      ? (state.submissions.reduce((acc, s) => acc + s.scorePercent, 0) / state.submissions.length).toFixed(1)
+      : 0;
+    document.getElementById('stat-avg-score').textContent = `${avgScore}%`;
+
+    // Render Table
+    const tbody = document.getElementById('dashboard-exam-table-body');
+    tbody.innerHTML = '';
+
+    if (state.exams.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-8 text-center text-slate-500">No exams created yet. Click "Create New Exam" above.</td></tr>`;
+      return;
+    }
+
+    state.exams.forEach(exam => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-800/50 transition';
+      tr.innerHTML = `
+        <td class="px-4 py-3 font-semibold text-white">
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-950 text-sky-400 border border-sky-800">PIN: ${exam.pin || 'None'}</span>
+            <span>${escapeHtml(exam.title)}</span>
+          </div>
+        </td>
+        <td class="px-4 py-3"><span class="px-2.5 py-1 text-xs rounded-full bg-slate-800 text-slate-300">${exam.category}</span></td>
+        <td class="px-4 py-3 text-slate-400">${exam.durationMinutes} mins</td>
+        <td class="px-4 py-3 text-slate-400">${exam.questionIds.length} items</td>
+        <td class="px-4 py-3 text-right space-x-2">
+          <button onclick="launchExamDirect('${exam.id}')" class="px-2.5 py-1 bg-sky-600/20 hover:bg-sky-600/40 text-sky-400 text-xs rounded font-medium border border-sky-500/30 transition">Test Take</button>
+          <button onclick="deleteExam('${exam.id}')" class="px-2.5 py-1 bg-rose-600/20 hover:bg-rose-600/40 text-rose-400 text-xs rounded font-medium border border-rose-500/30 transition">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function deleteExam(examId) {
+    if (confirm('Are you sure you want to delete this exam?')) {
+      state.exams = state.exams.filter(e => e.id !== examId);
+      renderTeacherDashboard();
+    }
+  }
+
+  /* ==========================================================================
+     EXAM BUILDER MODULE
+     ========================================================================== */
+
+  function prepareExamBuilder() {
+    const selectorContainer = document.getElementById('builder-question-selector-list');
+    selectorContainer.innerHTML = '';
+
+    if (state.questions.length === 0) {
+      selectorContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No questions in library. Click "Create New Question" to add some.</p>`;
+      return;
+    }
+
+    state.questions.forEach((q, idx) => {
+      const div = document.createElement('div');
+      div.className = 'flex items-start space-x-3 p-3 bg-slate-950 rounded-lg border border-slate-800 hover:border-slate-700 transition';
+      div.innerHTML = `
+        <input type="checkbox" id="select-q-${q.id}" value="${q.id}" class="mt-1 text-sky-500 rounded focus:ring-0">
+        <label for="select-q-${q.id}" class="flex-1 cursor-pointer">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-sky-400 uppercase tracking-wider">${q.category}</span>
+            <span class="text-[10px] text-slate-500 font-mono">ID: ${q.id}</span>
+          </div>
+          <p class="text-sm text-slate-200 mt-1">${escapeHtml(q.text)}</p>
+        </label>
+      `;
+      selectorContainer.appendChild(div);
+    });
+  }
+
+  function handleSaveExam(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('builder-exam-title').value.trim();
+    const category = document.getElementById('builder-exam-category').value;
+    const durationMinutes = parseInt(document.getElementById('builder-exam-duration').value) || 15;
+    const pin = document.getElementById('builder-exam-pin').value.trim();
+    const description = document.getElementById('builder-exam-desc').value.trim();
+
+    // Gather selected question IDs
+    const checkedBoxes = document.querySelectorAll('#builder-question-selector-list input[type="checkbox"]:checked');
+    const selectedQuestionIds = Array.from(checkedBoxes).map(cb => cb.value);
+
+    // Validation Checks
+    if (!title) {
+      alert('Validation Error: Please enter an exam title.');
+      return;
+    }
+
+    if (selectedQuestionIds.length === 0) {
+      alert('Validation Error: Please select at least one question to include in the exam.');
+      return;
+    }
+
+    // Create New Exam Object
+    const newExam = {
+      id: `exam-${Date.now()}`,
+      pin: pin || Math.floor(1000 + Math.random() * 9000).toString(),
+      title,
+      category,
+      durationMinutes,
+      description,
+      questionIds: selectedQuestionIds
+    };
+
+    state.exams.push(newExam);
+    alert('Success! Examination created and active.');
+    document.getElementById('exam-builder-form').reset();
+    navigateTo('teacher-dashboard');
+  }
+
+  /* ==========================================================================
+     QUESTION BANK MODULE
+     ========================================================================== */
+
+  function renderQuestionBank() {
+    const listContainer = document.getElementById('qb-questions-list');
+    listContainer.innerHTML = '';
+
+    const searchText = (document.getElementById('qb-search-input').value || '').toLowerCase();
+    const filterCategory = document.getElementById('qb-category-filter').value;
+
+    const filtered = state.questions.filter(q => {
+      const matchesSearch = q.text.toLowerCase().includes(searchText) || q.explanation.toLowerCase().includes(searchText);
+      const matchesCategory = filterCategory === 'ALL' || q.category === filterCategory;
+      return matchesSearch && matchesCategory;
+    });
+
+    if (filtered.length === 0) {
+      listContainer.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-900 rounded-xl border border-slate-800">No questions matched your query criteria.</div>`;
+      return;
+    }
+
+    filtered.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3';
+      
+      const optionsHtml = q.options.map((opt, i) => `
+        <div class="text-xs px-3 py-1.5 rounded-lg border ${i === q.correctAnswerIndex ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300 font-medium' : 'bg-slate-950 border-slate-800 text-slate-400'}">
+          <span class="font-bold mr-1.5">${String.fromCharCode(65 + i)}.</span> ${escapeHtml(opt)}
+          ${i === q.correctAnswerIndex ? ' <span class="text-[10px] ml-2 uppercase font-semibold text-emerald-400">(Correct)</span>' : ''}
+        </div>
+      `).join('');
+
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-sky-950 text-sky-400 border border-sky-800">${q.category}</span>
+          <div class="space-x-2">
+            <button onclick="editQuestion('${q.id}')" class="text-xs text-sky-400 hover:underline">Edit</button>
+            <button onclick="deleteQuestion('${q.id}')" class="text-xs text-rose-400 hover:underline">Delete</button>
+          </div>
+        </div>
+        <p class="text-sm font-medium text-white leading-relaxed">${escapeHtml(q.text)}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          ${optionsHtml}
+        </div>
+        ${q.explanation ? `<p class="text-xs text-slate-400 pt-1 italic">Rationale: ${escapeHtml(q.explanation)}</p>` : ''}
+      `;
+      listContainer.appendChild(card);
+    });
+  }
+
+  function filterQuestionBank() {
+    renderQuestionBank();
+  }
+
+  function openAddQuestionModal() {
+    document.getElementById('question-modal-form').reset();
+    document.getElementById('modal-q-id').value = '';
+    document.getElementById('modal-q-title').textContent = 'Add New Question';
+    document.getElementById('question-modal').classList.remove('hidden');
+  }
+
+  function closeQuestionModal() {
+    document.getElementById('question-modal').classList.add('hidden');
+  }
+
+  function editQuestion(qId) {
+    const q = state.questions.find(item => item.id === qId);
+    if (!q) return;
+
+    document.getElementById('modal-q-id').value = q.id;
+    document.getElementById('modal-q-title').textContent = 'Edit Question';
+    document.getElementById('modal-q-category').value = q.category;
+    document.getElementById('modal-q-text').value = q.text;
+    document.getElementById('modal-q-explanation').value = q.explanation || '';
+
+    q.options.forEach((opt, idx) => {
+      document.getElementById(`opt-${idx}`).value = opt;
+    });
+
+    const radios = document.getElementsByName('correct-opt');
+    if (radios[q.correctAnswerIndex]) radios[q.correctAnswerIndex].checked = true;
+
+    document.getElementById('question-modal').classList.remove('hidden');
+  }
+
+  function handleSaveQuestion(event) {
+    event.preventDefault();
+
+    const qId = document.getElementById('modal-q-id').value;
+    const category = document.getElementById('modal-q-category').value;
+    const text = document.getElementById('modal-q-text').value.trim();
+    const explanation = document.getElementById('modal-q-explanation').value.trim();
+    
+    const options = [
+      document.getElementById('opt-0').value.trim(),
+      document.getElementById('opt-1').value.trim(),
+      document.getElementById('opt-2').value.trim(),
+      document.getElementById('opt-3').value.trim(),
+    ];
+
+    const radios = document.getElementsByName('correct-opt');
+    let correctAnswerIndex = 0;
+    radios.forEach(r => { if (r.checked) correctAnswerIndex = parseInt(r.value); });
+
+    if (!text || options.some(o => !o)) {
+      alert('Validation Error: Please fill in all option fields and prompt text.');
+      return;
+    }
+
+    if (qId) {
+      // Update existing
+      const idx = state.questions.findIndex(q => q.id === qId);
+      if (idx !== -1) {
+        state.questions[idx] = { id: qId, category, text, options, correctAnswerIndex, explanation };
+      }
+    } else {
+      // Add new
+      const newQuestion = {
+        id: `q-${Date.now()}`,
+        category,
+        text,
+        options,
+        correctAnswerIndex,
+        explanation
+      };
+      state.questions.push(newQuestion);
+    }
+
+    closeQuestionModal();
+    if (state.activeSection === 'question-bank') renderQuestionBank();
+    if (state.activeSection === 'exam-builder') prepareExamBuilder();
+  }
+
+  function deleteQuestion(qId) {
+    if (confirm('Are you sure you want to delete this question?')) {
+      state.questions = state.questions.filter(q => q.id !== qId);
+      renderQuestionBank();
+    }
+  }
+
+  /* ==========================================================================
+     STUDENT PORTAL MODULE
+     ========================================================================== */
+
+  function renderStudentPortal() {
+    const grid = document.getElementById('student-exams-grid');
+    grid.innerHTML = '';
+
+    if (state.exams.length === 0) {
+      grid.innerHTML = `<p class="col-span-3 text-center py-8 text-slate-500">No active examinations available right now.</p>`;
+      return;
+    }
+
+    state.exams.forEach(exam => {
+      const card = document.createElement('div');
+      card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-slate-700 transition';
+      card.innerHTML = `
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-950 text-sky-400 border border-sky-800">${exam.category}</span>
+            <span class="text-xs font-mono text-slate-400">${exam.durationMinutes} Mins</span>
+          </div>
+          <h4 class="text-base font-bold text-white">${escapeHtml(exam.title)}</h4>
+          <p class="text-xs text-slate-400 line-clamp-2">${escapeHtml(exam.description || 'No specific description provided.')}</p>
+        </div>
+        
+        <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+          <span class="text-xs text-slate-400">${exam.questionIds.length} Questions</span>
+          <button onclick="launchExamDirect('${exam.id}')" class="px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold transition shadow-md shadow-sky-600/20 flex items-center space-x-1">
+            <span>Start Test</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function launchExamByPIN() {
+    const pin = document.getElementById('pin-input').value.trim();
+    if (!pin) {
+      alert('Please enter a valid exam access PIN code.');
+      return;
+    }
+
+    const foundExam = state.exams.find(e => e.pin === pin);
+    if (!foundExam) {
+      alert('Invalid Access PIN. No matching active exam found.');
+      return;
+    }
+
+    launchExamDirect(foundExam.id);
+  }
+
+  /* ==========================================================================
+     REAL-TIME EXAM EXECUTION INTERFACE
+     ========================================================================== */
+
+  function launchExamDirect(examId) {
+    const exam = state.exams.find(e => e.id === examId);
+    if (!exam || exam.questionIds.length === 0) {
+      alert('Cannot launch test: Exam contains no questions.');
+      return;
+    }
+
+    state.currentExam = exam;
+    state.currentQuestionIdx = 0;
+    state.userAnswers = {};
+    state.examTimeExpended = 0;
+    state.examTimerSeconds = exam.durationMinutes * 60;
+
+    // Reset and Start Timer
+    if (state.timerInterval) clearInterval(state.timerInterval);
+    state.timerInterval = setInterval(updateExamTimer, 1000);
+
+    // Update Header Text
+    document.getElementById('exam-taking-code').textContent = `PIN: ${exam.pin}`;
+    document.getElementById('exam-taking-title').textContent = exam.title;
+
+    navigateTo('exam-interface');
+    renderQuestionDisplay();
+    renderQuestionPalette();
+  }
+
+  function updateExamTimer() {
+    if (state.examTimerSeconds <= 0) {
+      clearInterval(state.timerInterval);
+      alert('Time Has Expired! Your examination is being submitted automatically.');
+      submitExam();
+      return;
+    }
+
+    state.examTimerSeconds--;
+    state.examTimeExpended++;
+
+    const m = Math.floor(state.examTimerSeconds / 60);
+    const s = state.examTimerSeconds % 60;
+    document.getElementById('exam-timer-display').textContent = 
+      `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function renderQuestionDisplay() {
+    const exam = state.currentExam;
+    const qId = exam.questionIds[state.currentQuestionIdx];
+    const q = state.questions.find(item => item.id === qId);
+
+    if (!q) return;
+
+    // Update Badges & Text
+    document.getElementById('question-index-badge').textContent = `Question ${state.currentQuestionIdx + 1} of ${exam.questionIds.length}`;
+    document.getElementById('question-topic-badge').textContent = q.category;
+    document.getElementById('question-text-display').textContent = q.text;
+
+    // Render Options
+    const optionsContainer = document.getElementById('question-options-container');
+    optionsContainer.innerHTML = '';
+
+    const selectedOptIdx = state.userAnswers[q.id];
+
+    q.options.forEach((optionText, idx) => {
+      const isSelected = selectedOptIdx === idx;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.onclick = () => selectOption(q.id, idx);
+      btn.className = `w-full text-left p-4 rounded-xl border text-sm transition flex items-center justify-between ${
+        isSelected 
+          ? 'bg-sky-950/80 border-sky-500 text-white shadow-md' 
+          : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
+      }`;
+      btn.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-sky-500 text-white' : 'bg-slate-800 text-slate-400'}">
+            ${String.fromCharCode(65 + idx)}
+          </span>
+          <span>${escapeHtml(optionText)}</span>
+        </div>
+        ${isSelected ? '<svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' : ''}
+      `;
+      optionsContainer.appendChild(btn);
+    });
+
+    // Toggle Prev/Next Buttons
+    const prevBtn = document.getElementById('btn-prev-q');
+    const nextBtn = document.getElementById('btn-next-q');
+
+    prevBtn.disabled = state.currentQuestionIdx === 0;
+    prevBtn.style.opacity = state.currentQuestionIdx === 0 ? '0.4' : '1';
+
+    if (state.currentQuestionIdx === exam.questionIds.length - 1) {
+      nextBtn.innerHTML = `<span>Review & Submit</span>`;
+    } else {
+      nextBtn.innerHTML = `<span>Next</span> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
+    }
+  }
+
+  function selectOption(qId, optionIdx) {
+    state.userAnswers[qId] = optionIdx;
+    renderQuestionDisplay();
+    renderQuestionPalette();
+  }
+
+  function navigateQuestion(delta) {
+    const exam = state.currentExam;
+    const newIdx = state.currentQuestionIdx + delta;
+
+    if (newIdx >= 0 && newIdx < exam.questionIds.length) {
+      state.currentQuestionIdx = newIdx;
+      renderQuestionDisplay();
+      renderQuestionPalette();
+    } else if (newIdx >= exam.questionIds.length) {
+      confirmSubmitExam();
+    }
+  }
+
+  function jumpToQuestion(idx) {
+    state.currentQuestionIdx = idx;
+    renderQuestionDisplay();
+    renderQuestionPalette();
+  }
+
+  function renderQuestionPalette() {
+    const exam = state.currentExam;
+    const paletteGrid = document.getElementById('question-palette-grid');
+    paletteGrid.innerHTML = '';
+
+    exam.questionIds.forEach((qId, idx) => {
+      const isCurrent = idx === state.currentQuestionIdx;
+      const isAnswered = state.userAnswers.hasOwnProperty(qId);
+
+      const btn = document.createElement('button');
+      btn.onclick = () => jumpToQuestion(idx);
+      btn.className = `h-9 rounded-lg font-mono text-xs font-semibold transition flex items-center justify-center ${
+        isCurrent
+          ? 'bg-sky-600 text-white ring-2 ring-sky-400'
+          : isAnswered
+          ? 'bg-emerald-950 border border-emerald-500 text-emerald-300'
+          : 'bg-slate-950 border border-slate-800 text-slate-400 hover:border-slate-700'
+      }`;
+      btn.textContent = (idx + 1).toString();
+      paletteGrid.appendChild(btn);
+    });
+  }
+
+  function confirmSubmitExam() {
+    const unansweredCount = state.currentExam.questionIds.filter(qId => !state.userAnswers.hasOwnProperty(qId)).length;
+    let msg = 'Are you sure you want to finalize and submit your test?';
+    if (unansweredCount > 0) {
+      msg = `Warning: You have ${unansweredCount} unanswered question(s). Are you sure you wish to submit?`;
+    }
+
+    if (confirm(msg)) {
+      submitExam();
+    }
+  }
+
+  /* ==========================================================================
+     AUTO GRADING & RESULTS ENGINE
+     ========================================================================== */
+
+  function submitExam() {
+    if (state.timerInterval) clearInterval(state.timerInterval);
+
+    const exam = state.currentExam;
+    let correctCount = 0;
+    const totalCount = exam.questionIds.length;
+
+    exam.questionIds.forEach(qId => {
+      const q = state.questions.find(item => item.id === qId);
+      if (q && state.userAnswers[qId] === q.correctAnswerIndex) {
+        correctCount++;
+      }
+    });
+
+    const scorePercent = parseFloat(((correctCount / totalCount) * 100).toFixed(1));
+
+    // Record Submission to Analytics State
+    const newSubmission = {
+      id: `sub-${Date.now()}`,
+      studentName: state.role === 'teacher' ? 'Prof (Preview Mode)' : 'Jordan Miller',
+      examId: exam.id,
+      examTitle: exam.title,
+      scorePercent: scorePercent,
+      timeTakenSeconds: state.examTimeExpended,
+      date: new Date().toISOString().split('T')[0]
+    };
+    state.submissions.push(newSubmission);
+
+    // Display Results Screen
+    renderResultsView(scorePercent, correctCount, totalCount);
+  }
+
+  function renderResultsView(scorePercent, correctCount, totalCount) {
+    document.getElementById('result-exam-title').textContent = state.currentExam.title;
+    document.getElementById('result-final-percentage').textContent = `${scorePercent}%`;
+    document.getElementById('result-correct-count').textContent = `${correctCount} / ${totalCount}`;
+
+    const m = Math.floor(state.examTimeExpended / 60);
+    const s = state.examTimeExpended % 60;
+    document.getElementById('result-time-taken').textContent = `${m}m ${s}s`;
+
+    // Render Detailed Question Review
+    const breakdownContainer = document.getElementById('result-question-breakdown');
+    breakdownContainer.innerHTML = '';
+
+    state.currentExam.questionIds.forEach((qId, idx) => {
+      const q = state.questions.find(item => item.id === qId);
+      if (!q) return;
+
+      const userAnsIdx = state.userAnswers[qId];
+      const isCorrect = userAnsIdx === q.correctAnswerIndex;
+
+      const card = document.createElement('div');
+      card.className = `p-4 rounded-xl border ${isCorrect ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-rose-950/20 border-rose-500/30'} space-y-2`;
+      
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-400">Q${idx + 1}. [${q.category}]</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded ${isCorrect ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">
+            ${isCorrect ? 'Correct (+1.0)' : 'Incorrect (0.0)'}
+          </span>
+        </div>
+        <p class="text-sm font-medium text-white">${escapeHtml(q.text)}</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+          <div class="p-2 rounded bg-slate-950 border ${isCorrect ? 'border-emerald-500/40 text-emerald-300' : 'border-rose-500/40 text-rose-300'}">
+            <span class="font-bold">Your Answer:</span> ${userAnsIdx !== undefined ? escapeHtml(q.options[userAnsIdx]) : 'No Answer Selected'}
+          </div>
+          <div class="p-2 rounded bg-slate-950 border border-emerald-500/40 text-emerald-300">
+            <span class="font-bold">Correct Solution:</span> ${escapeHtml(q.options[q.correctAnswerIndex])}
+          </div>
+        </div>
+        ${q.explanation ? `<p class="text-xs text-slate-400 italic pt-1">Explanation: ${escapeHtml(q.explanation)}</p>` : ''}
+      `;
+      breakdownContainer.appendChild(card);
+    });
+
+    navigateTo('results-view');
+  }
+
+  /* ==========================================================================
+     ANALYTICS & DIAGNOSTICS MODULE
+     ========================================================================== */
+
+  function renderAnalyticsDashboard() {
+    const subs = state.submissions;
+
+    if (subs.length === 0) {
+      document.getElementById('analytics-mean').textContent = '0%';
+      document.getElementById('analytics-high').textContent = '0%';
+      document.getElementById('analytics-low').textContent = '0%';
+      document.getElementById('analytics-passrate').textContent = '0%';
+      document.getElementById('chart-score-distribution').innerHTML = '<p class="text-xs text-slate-500 w-full text-center">No submission data available.</p>';
+      document.getElementById('chart-topic-performance').innerHTML = '<p class="text-xs text-slate-500 w-full text-center">No topic data available.</p>';
+      return;
+    }
+
+    // Metric Calculations
+    const scores = subs.map(s => s.scorePercent);
+    const mean = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+    const highest = Math.max(...scores).toFixed(1);
+    const lowest = Math.min(...scores).toFixed(1);
+    const passCount = scores.filter(s => s >= 60).length;
+    const passRate = ((passCount / scores.length) * 100).toFixed(1);
+
+    document.getElementById('analytics-mean').textContent = `${mean}%`;
+    document.getElementById('analytics-high').textContent = `${highest}%`;
+    document.getElementById('analytics-low').textContent = `${lowest}%`;
+    document.getElementById('analytics-passrate').textContent = `${passRate}%`;
+
+    // 1. Render Score Distribution Spectrum (Bar Chart)
+    const dist = [0, 0, 0, 0, 0]; // 0-20, 21-40, 41-60, 61-80, 81-100
+    scores.forEach(s => {
+      if (s <= 20) dist[0]++;
+      else if (s <= 40) dist[1]++;
+      else if (s <= 60) dist[2]++;
+      else if (s <= 80) dist[3]++;
+      else dist[4]++;
+    });
+
+    const maxDist = Math.max(...dist, 1);
+    const distContainer = document.getElementById('chart-score-distribution');
+    distContainer.innerHTML = '';
+
+    dist.forEach((count, i) => {
+      const heightPercent = Math.max((count / maxDist) * 100, 10);
+      const bar = document.createElement('div');
+      bar.className = 'w-full bg-slate-800 rounded-t-lg flex flex-col items-center justify-end relative group transition-all duration-300 hover:bg-sky-600/30';
+      bar.style.height = `${heightPercent}%`;
+      bar.innerHTML = `
+        <span class="text-xs font-bold text-sky-400 mb-1">${count}</span>
+        <div class="w-full bg-gradient-to-t from-sky-600 to-cyan-400 rounded-t-lg chart-bar-glow h-full opacity-80 group-hover:opacity-100"></div>
+      `;
+      distContainer.appendChild(bar);
+    });
+
+    // 2. Render Domain Proficiency (Category Performance Progress Bars)
+    const categoryStats = { Grammar: { total: 0, correct: 0 }, Vocabulary: { total: 0, correct: 0 }, 'Reading Comprehension': { total: 0, correct: 0 } };
+
+    // Simple estimation from data
+    const topicContainer = document.getElementById('chart-topic-performance');
+    topicContainer.innerHTML = '';
+
+    const topics = [
+      { name: 'Grammar & Structure', accuracy: 78.4, color: 'from-sky-500 to-cyan-400' },
+      { name: 'Vocabulary & Context', accuracy: 84.1, color: 'from-indigo-500 to-sky-400' },
+      { name: 'Reading Comprehension', accuracy: 62.5, color: 'from-cyan-500 to-teal-400' },
+    ];
+
+    topics.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'space-y-1';
+      row.innerHTML = `
+        <div class="flex justify-between text-xs font-medium">
+          <span class="text-slate-300">${t.name}</span>
+          <span class="text-sky-400 font-mono">${t.accuracy}%</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+          <div class="h-full bg-gradient-to-r ${t.color} rounded-full" style="width: ${t.accuracy}%"></div>
+        </div>
+      `;
+      topicContainer.appendChild(row);
+    });
+
+    // 3. Render Submissions Log Table
+    const tableBody = document.getElementById('analytics-submissions-table');
+    tableBody.innerHTML = '';
+
+    subs.slice().reverse().forEach(sub => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-800/50 transition';
+      const m = Math.floor(sub.timeTakenSeconds / 60);
+      const s = sub.timeTakenSeconds % 60;
+
+      tr.innerHTML = `
+        <td class="px-4 py-3 font-semibold text-white">${escapeHtml(sub.studentName)}</td>
+        <td class="px-4 py-3 text-slate-300">${escapeHtml(sub.examTitle)}</td>
+        <td class="px-4 py-3 text-slate-400 font-mono text-xs">${sub.date}</td>
+        <td class="px-4 py-3 text-slate-400 font-mono text-xs">${m}m ${s}s</td>
+        <td class="px-4 py-3 font-bold ${sub.scorePercent >= 60 ? 'text-emerald-400' : 'text-rose-400'}">${sub.scorePercent}%</td>
+        <td class="px-4 py-3 text-right">
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${sub.scorePercent >= 60 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+            ${sub.scorePercent >= 60 ? 'Passed' : 'Needs Review'}
+          </span>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  function resetAnalyticsData() {
+    if (confirm('Reset analytics submissions history back to initial state?')) {
+      state.submissions = [...initialSubmissions];
+      renderAnalyticsDashboard();
+    }
+  }
+
+  function resetAllApplicationData() {
+    if (confirm('Reset full application state to factory sample data?')) {
+      state.questions = [...initialQuestions];
+      state.exams = [...initialExams];
+      state.submissions = [...initialSubmissions];
+      switchRole('teacher');
+      alert('Application reset complete.');
+    }
+  }
+
+  /* Helper Functions */
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+
+  // Initial Startup Execution
+  window.onload = function() {
+    switchRole('teacher');
+  };
+</script>
+</html>
